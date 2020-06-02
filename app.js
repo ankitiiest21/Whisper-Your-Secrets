@@ -71,17 +71,17 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
-// passport.use(new FacebookStrategy({
-//     clientID: process.env.APP_ID,
-//     clientSecret: process.env.APP_SECRET,
-//     callbackURL: "http://localhost:3000/auth/facebook/secrets"
-//   },
-//   function(accessToken, refreshToken, profile, cb) {
-//     User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-//       return cb(err, user);
-//     });
-//   }
-// ));
+passport.use(new FacebookStrategy({
+    clientID: process.env.APP_ID,
+    clientSecret: process.env.APP_SECRET,
+    callbackURL: "https://whisperyoursecrets.herokuapp.com/auth/facebook/secrets"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
 
 
 app.get("/",function(req,res){
@@ -98,15 +98,15 @@ app.get("/auth/google/secrets",
       res.redirect('/secrets');
     });
 
-// app.get("/auth/facebook",
-//  passport.authenticate('facebook'));
-//
-// app.get("/auth/facebook/secrets",
-//    passport.authenticate('facebook', { failureRedirect: '/login' }),
-//    function(req, res) {
-//      // Successful authentication, redirect home.
-//      res.redirect('/secrets');
-//    });
+app.get("/auth/facebook",
+ passport.authenticate('facebook'));
+
+app.get("/auth/facebook/secrets",
+   passport.authenticate('facebook', { failureRedirect: '/login' }),
+   function(req, res) {
+     // Successful authentication, redirect home.
+     res.redirect('/secrets');
+   });
 
 app.get("/login",function(req,res){
   res.render("login");
