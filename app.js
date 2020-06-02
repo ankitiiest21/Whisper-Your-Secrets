@@ -1,4 +1,5 @@
 //jshint esversion:6
+//use db.users.dropIndexes() in case of E11000 Duplicate Key error in Mongodb
 require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
